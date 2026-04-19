@@ -84,8 +84,8 @@ const Chatbox = ({ user }: ChatboxProps) => {
   }, [conversationId]);
 
   return (
-    <div className="flex h-full gap-4">
-      <div className="min-w-[20%] max-w-[50%]">
+    <div className="flex h-full  w-full gap-4">
+      <div className="min-w-[20%] max-w-[50%] text-sm">
         <ConversationList setConversationId={setConversationId} />
       </div>
       <div className="flex flex-col h-full">
@@ -126,16 +126,8 @@ const Message = React.forwardRef<
   }
 >(({ text, sender, isMine, last }, ref) => {
   return (
-    <div
-      ref={ref}
-      className={`flex flex-col gap-1 ${isMine ? "items-end" : "items-start"} ${!last ? "pb-2" : ""}`}
-    >
-      <small>{sender}</small>
-      <div
-        className={`max-w-[75%] p-2 ${isMine ? "bg-blue-500 text-white" : "bg-gray-100"}`}
-      >
-        {text}
-      </div>
+    <div ref={ref} className="chat chat-end">
+      <div className="chat-bubble">{text}</div>
     </div>
   );
 });
@@ -150,6 +142,8 @@ const ConversationList = ({
     queryKey: ["conversations"],
     queryFn: () => convApi.findForConnectedUser(),
   });
+
+  if (!conversations?.length) return <p>Loading conversations...</p>;
 
   return (
     <>

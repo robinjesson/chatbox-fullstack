@@ -1,11 +1,6 @@
 import { useForm } from "react-hook-form";
-import {
-  AuthControllerApi,
-  Configuration,
-  type LoginRequest,
-  type UserResponse,
-} from "../../api";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { AuthControllerApi, Configuration, type LoginRequest } from "../../api";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 const authApi = new AuthControllerApi(
   new Configuration({
@@ -14,35 +9,35 @@ const authApi = new AuthControllerApi(
   }),
 );
 
-interface LoginProps {
-  setUser: React.Dispatch<React.SetStateAction<UserResponse | undefined>>;
-  user: UserResponse | undefined;
-}
+interface LoginProps {}
 
-const Login = ({ setUser, user }: LoginProps) => {
+const Login = ({}: LoginProps) => {
   const { register, getValues } = useForm<LoginRequest>();
+  const queryClient = new QueryClient();
   const { mutate: login } = useMutation({
     mutationFn: () => authApi.login({ loginRequest: getValues() }),
     onSuccess: () => {
-      authApi.me().then((res) => setUser(res));
+      queryClient.invalidateQueries({ queryKey: ["me"] });
     },
   });
   return (
     <>
-      {!user ? (
-        <>
-          <div>Login</div>
-          <input type="text" placeholder="Username" {...register("uid")} />
-          <input
-            type="password"
-            placeholder="Password"
-            {...register("password")}
-          />
-          <button onClick={() => login()}>Login</button>
-        </>
-      ) : (
-        <div>Welcome {user.uid}</div>
-      )}
+      <div>Login</div>
+      <input
+        className="input"
+        type="text"
+        placeholder="Username"
+        {...register("uid")}
+      />
+      <input
+        className="input"
+        type="password"
+        placeholder="Password"
+        {...register("password")}
+      />
+      <button className="btn" onClick={() => login()}>
+        Login
+      </button>
     </>
   );
 };

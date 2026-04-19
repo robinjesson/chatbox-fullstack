@@ -27,9 +27,21 @@ const Signup = ({}: SignupProps) => {
   return (
     <>
       <div>Sign Up</div>
-      <input type="text" placeholder="Username" {...register("uid")} />
-      <input type="password" placeholder="Password" {...register("password")} />
-      <button onClick={() => signup()}>Sign Up</button>
+      <input
+        className="input"
+        type="text"
+        placeholder="Username"
+        {...register("uid")}
+      />
+      <input
+        className="input"
+        type="password"
+        placeholder="Password"
+        {...register("password")}
+      />
+      <button className="btn" onClick={() => signup()}>
+        Sign Up
+      </button>
     </>
   );
 };
