@@ -1,10 +1,11 @@
 package fr.robinjesson.chatbox.adapter;
 
-import fr.robinjesson.chatbox.api.request.RegisterUserRequest;
+import fr.robinjesson.chatbox.api.request.LoginRequest;
 import fr.robinjesson.chatbox.api.response.UserResponse;
 import fr.robinjesson.chatbox.business.UserBusiness;
 import fr.robinjesson.chatbox.entities.UserEntity;
 import fr.robinjesson.chatbox.mappers.UserMapper;
+import fr.robinjesson.chatbox.security.ConnectedUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +18,15 @@ public class UserAdapter {
     private final UserMapper userMapper;
     private final UserBusiness userBusiness;
 
-    public UserResponse signup(final RegisterUserRequest registerUserRequest) {
-        UserEntity userEntity = userMapper.mapToEntity(registerUserRequest);
+    public UserResponse signup(final LoginRequest loginRequest) {
+        UserEntity userEntity = userMapper.mapToEntity(loginRequest);
         userEntity.setLastPasswordModification(LocalDateTime.now());
         userEntity = userBusiness.create(userEntity);
+        return userMapper.mapToResponse(userEntity);
+    }
+
+    public UserResponse me() {
+        final UserEntity userEntity = userBusiness.findConnectedUser();
         return userMapper.mapToResponse(userEntity);
     }
 

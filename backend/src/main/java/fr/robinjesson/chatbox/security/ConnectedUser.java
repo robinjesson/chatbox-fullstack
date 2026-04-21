@@ -11,5 +11,4 @@ import org.springframework.web.context.annotation.RequestScope;
 @Setter
 public class ConnectedUser {
     private String uid;
-    private String email;
 }

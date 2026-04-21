@@ -1,7 +1,6 @@
 package fr.robinjesson.chatbox.mappers;
 
 import fr.robinjesson.chatbox.api.request.LoginRequest;
-import fr.robinjesson.chatbox.api.request.RegisterUserRequest;
 import fr.robinjesson.chatbox.api.response.UserResponse;
 import fr.robinjesson.chatbox.entities.UserEntity;
 import java.util.ArrayList;
@@ -11,26 +10,11 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2026-04-17T20:29:51+0200",
+    date = "2026-04-18T18:40:35+0200",
     comments = "version: 1.6.3, compiler: javac, environment: Java 25 (GraalVM Community)"
 )
 @Component
 public class UserMapperImpl implements UserMapper {
-
-    @Override
-    public UserEntity mapToEntity(RegisterUserRequest source) {
-        if ( source == null ) {
-            return null;
-        }
-
-        UserEntity.UserEntityBuilder userEntity = UserEntity.builder();
-
-        userEntity.uid( source.uid() );
-        userEntity.email( source.email() );
-        userEntity.password( source.password() );
-
-        return userEntity.build();
-    }
 
     @Override
     public UserEntity mapToEntity(LoginRequest source) {
@@ -53,12 +37,10 @@ public class UserMapperImpl implements UserMapper {
         }
 
         String uid = null;
-        String email = null;
 
         uid = source.getUid();
-        email = source.getEmail();
 
-        UserResponse userResponse = new UserResponse( uid, email );
+        UserResponse userResponse = new UserResponse( uid );
 
         return userResponse;
     }

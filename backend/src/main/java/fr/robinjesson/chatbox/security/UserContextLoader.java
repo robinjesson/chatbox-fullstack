@@ -17,8 +17,6 @@ public class UserContextLoader {
 
         if (authentication != null && authentication.getPrincipal() instanceof UserEntity user) {
             connectedUser.setUid(user.getUid());
-            connectedUser.setEmail(user.getEmail());
-            // Ajoutez d'autres champs si nécessaire
         }
     }
 }

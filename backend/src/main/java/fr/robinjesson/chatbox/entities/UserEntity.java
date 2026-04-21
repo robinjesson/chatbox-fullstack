@@ -1,6 +1,9 @@
 package fr.robinjesson.chatbox.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,9 +24,6 @@ public class UserEntity implements UserDetails {
     @Id
     @Column(length = 20)
     private String uid;
-
-    @Column(length = 320)
-    private String email;
 
     @Column(length = 100, nullable = false)
     private String password;

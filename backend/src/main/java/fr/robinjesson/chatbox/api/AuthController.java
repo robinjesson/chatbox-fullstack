@@ -3,7 +3,6 @@ package fr.robinjesson.chatbox.api;
 import fr.robinjesson.chatbox.adapter.AuthAdapter;
 import fr.robinjesson.chatbox.adapter.UserAdapter;
 import fr.robinjesson.chatbox.api.request.LoginRequest;
-import fr.robinjesson.chatbox.api.request.RegisterUserRequest;
 import fr.robinjesson.chatbox.api.response.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +23,8 @@ public class AuthController {
 
     @PostMapping("/signup")
     @Operation(summary = "Register a new user")
-    public ResponseEntity<UserResponse> signup(@RequestBody final RegisterUserRequest registerUserRequest) {
-        return ResponseEntity.ok(userAdapter.signup(registerUserRequest));
+    public ResponseEntity<UserResponse> signup(@RequestBody final LoginRequest loginRequest) {
+        return ResponseEntity.ok(userAdapter.signup(loginRequest));
     }
 
     @PostMapping("/login")
@@ -34,6 +33,12 @@ public class AuthController {
         return ResponseEntity.noContent()
                 .header(HttpHeaders.SET_COOKIE, authAdapter.authenticate(loginRequest).toString())
                 .build();
+    }
+
+    @PostMapping("/me")
+    @Operation(summary = "Authenticate a user and return a JWT token in an HTTP-only cookie")
+    public ResponseEntity<UserResponse> me() {
+        return ResponseEntity.ok(userAdapter.me());
     }
 
     @PostMapping("/logout")
