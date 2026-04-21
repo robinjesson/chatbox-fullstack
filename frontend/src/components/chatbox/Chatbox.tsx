@@ -1,14 +1,15 @@
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
 import {
   Configuration,
   ConversationControllerApi,
-  type ConversationResponse,
   type MessageRequest,
   type MessageResponse,
   type UserResponse,
 } from "../../api";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
+import ConversationList from "../ConversationList/ConversationList";
+import Message from "../Message/Message";
 
 const convApi = new ConversationControllerApi(
   new Configuration({
@@ -62,7 +63,7 @@ const Chatbox = ({ user }: ChatboxProps) => {
       eventSource.onmessage = (event) => {
         const receivedEvent: MessageResponse = JSON.parse(event.data);
         queryClient.setQueryData<MessageResponse[]>(
-          ["conversation", 1],
+          ["conversation", conversationId],
           (oldData) => {
             if (!oldData) return [receivedEvent];
 
@@ -112,67 +113,6 @@ const Chatbox = ({ user }: ChatboxProps) => {
           </button>
         </form>
       </div>
-    </div>
-  );
-};
-
-const Message = React.forwardRef<
-  HTMLDivElement,
-  {
-    text: string;
-    sender: string;
-    isMine: boolean;
-    last: boolean;
-  }
->(({ text, sender, isMine, last }, ref) => {
-  return (
-    <div ref={ref} className="chat chat-end">
-      <div className="chat-bubble">{text}</div>
-    </div>
-  );
-});
-Message.displayName = "Message";
-
-const ConversationList = ({
-  setConversationId,
-}: {
-  setConversationId: (id: number) => void;
-}) => {
-  const { data: conversations } = useQuery({
-    queryKey: ["conversations"],
-    queryFn: () => convApi.findForConnectedUser(),
-  });
-
-  if (!conversations?.length) return <p>Loading conversations...</p>;
-
-  return (
-    <>
-      {conversations?.map((conversation) => (
-        <ConversationItem
-          key={conversation.id}
-          conversation={conversation}
-          setConversationId={setConversationId}
-        />
-      ))}
-    </>
-  );
-};
-
-const ConversationItem = ({
-  conversation,
-  setConversationId,
-}: {
-  conversation: ConversationResponse;
-  setConversationId: (id: number) => void;
-}) => {
-  return (
-    <div
-      className="p-4 border cursor-pointer"
-      onClick={() => setConversationId(conversation.id!)}
-    >
-      {conversation.participants
-        ?.map((participant) => participant.uid)
-        .join(", ")}
     </div>
   );
 };
