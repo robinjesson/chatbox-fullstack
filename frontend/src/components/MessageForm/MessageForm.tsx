@@ -24,9 +24,6 @@ const MessageForm = ({ conversationId }: { conversationId: number }) => {
       })
       .then(() => {
         reset();
-      })
-      .catch(() => {
-        console.error("Invalid credentials");
       });
   };
 
