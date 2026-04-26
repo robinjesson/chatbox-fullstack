@@ -1,6 +1,6 @@
+import { QueryClient, useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { AuthControllerApi, Configuration, type LoginRequest } from "../../api";
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 
 const authApi = new AuthControllerApi(
   new Configuration({
@@ -22,7 +22,6 @@ const Login = ({}: LoginProps) => {
   });
   return (
     <>
-      <div>Login</div>
       <input
         className="input"
         type="text"

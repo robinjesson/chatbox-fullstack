@@ -1,8 +1,8 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useState } from "react";
+import { type UserResponse } from "./api";
 import "./App.css";
 import Chatbox from "./components/chatbox/Chatbox";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { type UserResponse } from "./api";
-import { useState } from "react";
 import Menu from "./components/menu/Menu";
 
 function App() {
@@ -10,12 +10,12 @@ function App() {
   const [user, setUser] = useState<UserResponse>();
 
   return (
-    <div className="h-full w-full flex">
-      <QueryClientProvider client={queryClient}>
-        <Menu setUser={setUser} />
+    <QueryClientProvider client={queryClient}>
+      <Menu setUser={setUser} />
+      <div className="flex-1 flex h-full  w-full gap-4">
         {user && <Chatbox user={user} />}
-      </QueryClientProvider>
-    </div>
+      </div>
+    </QueryClientProvider>
   );
 }
 

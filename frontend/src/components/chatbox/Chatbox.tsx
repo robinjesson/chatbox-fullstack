@@ -66,7 +66,7 @@ const Chatbox = ({ user }: ChatboxProps) => {
   }, [conversationId]);
 
   return (
-    <div className="flex h-full  w-full gap-4">
+    <>
       <div className="min-w-[20%] max-w-[50%] text-sm">
         <ConversationList setConversationId={setConversationId} />
       </div>
@@ -89,7 +89,7 @@ const Chatbox = ({ user }: ChatboxProps) => {
         </div>
         <MessageForm conversationId={conversationId} />
       </div>
-    </div>
+    </>
   );
 };
 

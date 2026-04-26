@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { AuthControllerApi, Configuration, type UserResponse } from "../../api";
 import Login from "../login/Login";
 import Signup from "../signup/Signup";
-import { useState } from "react";
 
 const authApi = new AuthControllerApi(
   new Configuration({
@@ -28,20 +28,28 @@ const Menu = ({ setUser }: MenuProps) => {
 
   return (
     <>
-      {!me && (
-        <>
-          <button
-            className="btn"
-            onClick={() => setToggleLoginSignup("signup")}
-          >
-            Sign Up
-          </button>
-          <button className="btn" onClick={() => setToggleLoginSignup("login")}>
-            Log In
-          </button>
-          {toggleLoginSignup === "signup" ? <Signup /> : <Login />}
-        </>
-      )}
+      <div className="navbar bg-base-100 shadow-sm">
+        <div className="flex-1">Chatbox</div>
+        <div className="flex gap-2">
+          {!me && (
+            <>
+              <button
+                className="btn"
+                onClick={() => setToggleLoginSignup("signup")}
+              >
+                Sign Up
+              </button>
+              <button
+                className="btn"
+                onClick={() => setToggleLoginSignup("login")}
+              >
+                Log In
+              </button>
+              {toggleLoginSignup === "signup" ? <Signup /> : <Login />}
+            </>
+          )}
+        </div>
+      </div>
     </>
   );
 };

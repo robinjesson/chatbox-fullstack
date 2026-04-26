@@ -1,11 +1,6 @@
-import { useForm } from "react-hook-form";
-import {
-  AuthControllerApi,
-  Configuration,
-  type LoginRequest,
-  type UserResponse,
-} from "../../api";
 import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import { AuthControllerApi, Configuration, type LoginRequest } from "../../api";
 
 const authApi = new AuthControllerApi(
   new Configuration({
@@ -26,7 +21,6 @@ const Signup = ({}: SignupProps) => {
   });
   return (
     <>
-      <div>Sign Up</div>
       <input
         className="input"
         type="text"
