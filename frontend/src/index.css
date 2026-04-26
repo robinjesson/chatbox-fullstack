@@ -6,3 +6,13 @@ body,
 #root {
   height: 100%;
 }
+
+
+@utility flex-out-* {
+  @apply flex h-full w-full overflow-auto flex-col;
+  flex-direction:  --value("column", "row");
+}
+
+.flex-in {
+  @apply flex-1 overflow-auto;
+}

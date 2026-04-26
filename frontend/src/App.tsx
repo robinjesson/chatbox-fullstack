@@ -12,7 +12,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Menu setUser={setUser} />
-      <div className="flex-1 flex h-full  w-full gap-4">
+      <div className="flex-in flex-out-row">
         {user && <Chatbox user={user} />}
       </div>
     </QueryClientProvider>

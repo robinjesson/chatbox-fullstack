@@ -70,8 +70,8 @@ const Chatbox = ({ user }: ChatboxProps) => {
       <div className="min-w-[20%] max-w-[50%] text-sm">
         <ConversationList setConversationId={setConversationId} />
       </div>
-      <div className="flex flex-col flex-1 h-full">
-        <div className="flex-1 flex flex-col overflow-auto">
+      <div className="flex-out-column">
+        <div className="flex-in">
           {messages?.length ? (
             messages.map((message, index) => (
               <Message
