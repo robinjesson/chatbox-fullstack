@@ -8,10 +8,13 @@ const Message = React.forwardRef<
     isMine: boolean;
     last: boolean;
   }
->(({ text, sender, isMine, last }, ref) => {
+>(({ text, sender, isMine }, ref) => {
   return (
-    <div ref={ref} className="chat chat-end">
-      <div className="chat-bubble">{text}</div>
+    <div ref={ref} className={`chat ${isMine ? "chat-end" : "chat-start"}`}>
+      <div className="chat-header">{sender}</div>
+      <div className={`chat-bubble ${isMine && "chat-bubble-primary"}`}>
+        {text}
+      </div>
     </div>
   );
 });

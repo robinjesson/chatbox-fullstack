@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import ConversationItem from "../ConversationItem/ConversationItem";
 import { Configuration, ConversationControllerApi } from "../../api";
+import ConversationItem from "../ConversationItem/ConversationItem";
 
 const convApi = new ConversationControllerApi(
   new Configuration({
@@ -19,11 +19,13 @@ const ConversationList = ({
     queryFn: () => convApi.findForConnectedUser(),
   });
 
-  if (!conversations?.length) return <p>Loading conversations...</p>;
+  if (conversations == null) return <p>Loading conversations...</p>;
+
+  if (!conversations.length) return <p>No conversations found.</p>;
 
   return (
     <ul className="menu bg-base-200 rounded-box w-56">
-      {conversations?.map((conversation) => (
+      {conversations.map((conversation) => (
         <ConversationItem
           key={conversation.id}
           conversation={conversation}
