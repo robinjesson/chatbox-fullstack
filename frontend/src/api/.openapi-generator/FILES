@@ -1,5 +1,6 @@
 apis/AuthControllerApi.ts
 apis/ConversationControllerApi.ts
+apis/UserControllerApi.ts
 apis/index.ts
 docs/AuthControllerApi.md
 docs/ConversationControllerApi.md
@@ -8,6 +9,7 @@ docs/ConversationResponse.md
 docs/LoginRequest.md
 docs/MessageRequest.md
 docs/MessageResponse.md
+docs/UserControllerApi.md
 docs/UserResponse.md
 index.ts
 models/ConversationRequest.ts

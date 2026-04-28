@@ -1,23 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
-import { AuthControllerApi, Configuration, type UserResponse } from "../../api";
+import { type UserResponse } from "../../api";
+import { useUser } from "../../hooks";
 import Login from "../login/Login";
-
-const authApi = new AuthControllerApi(
-  new Configuration({
-    basePath: "http://localhost:8080",
-    credentials: "include",
-  }),
-);
 
 interface MenuProps {
   setUser: React.Dispatch<React.SetStateAction<UserResponse | undefined>>;
 }
 
 const Menu = ({ setUser }: MenuProps) => {
-  const { data: me } = useQuery({
-    queryKey: ["me"],
-    queryFn: () => authApi.me(),
-  });
+  const { data: me } = useUser();
 
   if (me) setUser(me);
 
