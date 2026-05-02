@@ -1,0 +1,31 @@
+package fr.robinjesson.chatbox.business;
+
+import fr.robinjesson.chatbox.entities.UserEntity;
+import fr.robinjesson.chatbox.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class AuthBusiness {
+    private final UserRepository userRepository;
+    private final AuthenticationManager authenticationManager;
+
+    public UserEntity authenticate(final String uid, final String password) {
+        final Optional<UserEntity> optionalUser = userRepository.findById(uid);
+        if(optionalUser.isEmpty())
+            throw new RuntimeException("User %s does not exist".formatted(uid));
+
+        final UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(uid, password);
+        authenticationManager.authenticate(authenticationToken);
+
+        final UserEntity userEntity = optionalUser.get();
+        userEntity.setLastConnection(LocalDateTime.now());
+        return userRepository.save(userEntity);
+    }
+}
