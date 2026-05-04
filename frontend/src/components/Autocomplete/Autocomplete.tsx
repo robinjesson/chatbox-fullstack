@@ -1,25 +1,44 @@
-interface AutocompleteProps<T> {
-  options: T[];
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+
+interface AutocompleteProps {
+  options: string[];
+  onSelect: (value: string) => void;
+  onInputChange: (value: string) => void;
 }
 
-const Autocomplete = <T extends { name: string; id: number } | string>({
+const Autocomplete = ({
   options,
-}: AutocompleteProps<T>) => {
+  onSelect,
+  onInputChange,
+}: AutocompleteProps) => {
+  const { register, subscribe } = useForm<{ val: string }>();
+
+  useEffect(() => {
+    const unsubscribe = subscribe({
+      formState: {
+        values: true,
+      },
+      callback: ({ values }) => {
+        onInputChange(values.val ?? "");
+      },
+    });
+
+    return () => unsubscribe();
+  }, [onInputChange, subscribe]);
+
   return (
     <div className="dropdown w-full">
       <input
-        tabIndex={0}
         type="text"
         placeholder="Chercher..."
-        className="input input-bordered w-full"
+        className="input w-full"
+        {...register("val")}
       />
-      <ul
-        tabIndex={0}
-        className="dropdown-content menu bg-base-100 rounded-box z-1 w-full p-2 shadow mt-1 border border-base-300"
-      >
+      <ul className="dropdown-content menu bg-base-100 rounded-box z-1 w-full p-2 shadow mt-1 border border-base-300">
         {options.map((option) => (
-          <li key={typeof option === "string" ? option : option.id}>
-            <a>{typeof option === "string" ? option : option.name}</a>
+          <li key={option} onClick={() => onSelect(option)}>
+            <a>{option}</a>
           </li>
         ))}
       </ul>

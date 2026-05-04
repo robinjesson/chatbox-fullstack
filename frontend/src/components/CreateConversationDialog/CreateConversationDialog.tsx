@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { Configuration, UserControllerApi } from "../../api";
 import Autocomplete from "../Autocomplete/Autocomplete";
 
@@ -18,18 +19,23 @@ const CreateConversationDialog = ({
   isOpen,
   onClose,
 }: CreateConversationDialogProps) => {
+  const [searchValue, setSearchValue] = useState("");
   const { data: users } = useQuery({
-    queryKey: ["users"],
-    queryFn: () => userApi.getAllUsers(),
+    queryKey: ["users", searchValue],
+    queryFn: () => userApi.getAllUsers({ q: searchValue }),
+    gcTime: 0,
   });
+
+  const uidList = users?.map((user) => user.uid ?? "") || [];
 
   return (
     <dialog open={isOpen} className="modal">
       <div className="modal-box">
         <header className="text-lg font-bold">Create conversation</header>
-        <Autocomplete<string>
-          value=""
-          options={users?.map((user) => user.uid) || []}
+        <Autocomplete
+          options={uidList}
+          onInputChange={(val) => setSearchValue(val)}
+          onSelect={(uid) => console.log(uid)}
         />
         <footer className="modal-action">
           <button className="btn" onClick={onClose}>

@@ -22,6 +22,10 @@ import {
     UserResponseToJSON,
 } from '../models/index';
 
+export interface GetAllUsersRequest {
+    q: string;
+}
+
 /**
  * 
  */
@@ -30,13 +34,24 @@ export class UserControllerApi extends runtime.BaseAPI {
     /**
      * Creates request options for getAllUsers without sending the request
      */
-    async getAllUsersRequestOpts(): Promise<runtime.RequestOpts> {
+    async getAllUsersRequestOpts(requestParameters: GetAllUsersRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['q'] == null) {
+            throw new runtime.RequiredError(
+                'q',
+                'Required parameter "q" was null or undefined when calling getAllUsers().'
+            );
+        }
+
         const queryParameters: any = {};
+
+        if (requestParameters['q'] != null) {
+            queryParameters['q'] = requestParameters['q'];
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
 
-        let urlPath = `/users`;
+        let urlPath = `/suers`;
 
         return {
             path: urlPath,
@@ -49,8 +64,8 @@ export class UserControllerApi extends runtime.BaseAPI {
     /**
      * Get all users
      */
-    async getAllUsersRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UserResponse>>> {
-        const requestOptions = await this.getAllUsersRequestOpts();
+    async getAllUsersRaw(requestParameters: GetAllUsersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<UserResponse>>> {
+        const requestOptions = await this.getAllUsersRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(UserResponseFromJSON));
@@ -59,8 +74,8 @@ export class UserControllerApi extends runtime.BaseAPI {
     /**
      * Get all users
      */
-    async getAllUsers(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<UserResponse>> {
-        const response = await this.getAllUsersRaw(initOverrides);
+    async getAllUsers(requestParameters: GetAllUsersRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<UserResponse>> {
+        const response = await this.getAllUsersRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

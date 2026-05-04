@@ -30,7 +30,7 @@ public class UserAdapter {
         return userMapper.mapToResponse(userEntity);
     }
 
-    public List<UserResponse> findAll() {
-        return userMapper.mapToResponse(userBusiness.findAll());
+    public List<UserResponse> findAll(final String search) {
+        return userMapper.mapToResponse(userBusiness.findAll(search));
     }
 }

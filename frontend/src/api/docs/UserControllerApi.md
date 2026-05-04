@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost:8080*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**getAllUsers**](UserControllerApi.md#getallusers) | **GET** /users | Get all users |
+| [**getAllUsers**](UserControllerApi.md#getallusers) | **GET** /suers | Get all users |
 
 
 
 ## getAllUsers
 
-> Array&lt;UserResponse&gt; getAllUsers()
+> Array&lt;UserResponse&gt; getAllUsers(q)
 
 Get all users
 
@@ -27,8 +27,13 @@ async function example() {
   console.log("🚀 Testing  SDK...");
   const api = new UserControllerApi();
 
+  const body = {
+    // string
+    q: q_example,
+  } satisfies GetAllUsersRequest;
+
   try {
-    const data = await api.getAllUsers();
+    const data = await api.getAllUsers(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -41,7 +46,10 @@ example().catch(console.error);
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **q** | `string` |  | [Defaults to `undefined`] |
 
 ### Return type
 

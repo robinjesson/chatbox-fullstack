@@ -1,5 +1,6 @@
 package fr.robinjesson.chatbox.business;
 
+import fr.robinjesson.chatbox.business.specifications.UserSpecification;
 import fr.robinjesson.chatbox.entities.UserEntity;
 import fr.robinjesson.chatbox.repository.UserRepository;
 import fr.robinjesson.chatbox.security.ConnectedUser;
@@ -29,7 +30,7 @@ public class UserBusiness {
         return userRepository.findConcreteById(connectedUser.getUid());
     }
 
-    public List<UserEntity> findAll() {
-        return userRepository.findAll();
+    public List<UserEntity> findAll(final String search) {
+        return userRepository.findAll(UserSpecification.searchUsers(search));
     }
 }
