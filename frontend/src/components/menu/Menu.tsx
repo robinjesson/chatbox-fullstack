@@ -1,6 +1,6 @@
 import { type UserResponse } from "../../api";
 import { useUser } from "../../hooks";
-import Login from "../login/Login";
+import Login from "../Login/Login";
 
 interface MenuProps {
   setUser: React.Dispatch<React.SetStateAction<UserResponse | undefined>>;
