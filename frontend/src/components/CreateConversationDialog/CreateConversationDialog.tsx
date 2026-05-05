@@ -30,7 +30,7 @@ const CreateConversationDialog = ({
 
   return (
     <dialog open={isOpen} className="modal">
-      <div className="modal-box">
+      <div className="modal-box overflow-visible">
         <header className="text-lg font-bold">Create conversation</header>
         <Autocomplete
           options={uidList}
