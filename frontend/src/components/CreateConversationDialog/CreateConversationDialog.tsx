@@ -6,6 +6,7 @@ import {
   UserControllerApi,
 } from "../../api";
 import Autocomplete from "../Autocomplete/Autocomplete";
+import ListParticipants from "../ListParticipants/ListParticipants";
 
 const userApi = new UserControllerApi(
   new Configuration({
@@ -64,16 +65,11 @@ const CreateConversationDialog = ({
     <dialog open={isOpen} className="modal">
       <div className="modal-box overflow-visible">
         <header className="text-lg font-bold">Create conversation</header>
-        <div className="flex-out-row gap-2 pb-2 cursor-pointer">
-          {participantUids.map((uid) => (
-            <div
-              className="badge badge-neutral badge-outline"
-              key={uid}
-              onClick={() => handleRemoveUser(uid)}
-            >
-              {uid}
-            </div>
-          ))}
+        <div className="flex flex-wrap gap-2 pb-2 cursor-pointer">
+          <ListParticipants
+            onRemoveUser={handleRemoveUser}
+            participantUids={participantUids}
+          />
         </div>
         <Autocomplete
           options={users?.map((user) => user.uid ?? "") || []}
