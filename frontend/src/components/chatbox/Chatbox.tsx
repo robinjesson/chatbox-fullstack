@@ -80,7 +80,6 @@ const Chatbox = ({ user }: ChatboxProps) => {
                 text={message.text!}
                 sender={message.user?.uid!}
                 isMine={message.user?.uid === user.uid}
-                last={index === messages.length - 1}
               />
             ))
           ) : (

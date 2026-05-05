@@ -9,7 +9,7 @@ body,
 
 
 @utility flex-out-* {
-  @apply flex h-full w-full overflow-auto flex-col;
+  @apply flex h-full w-full overflow-auto;
   flex-direction:  --value("column", "row");
 }
 

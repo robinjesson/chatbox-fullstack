@@ -37,8 +37,16 @@ const Autocomplete = ({
       />
       <ul className="dropdown-content menu bg-base-100 rounded-box z-1 w-full p-2 shadow mt-1 border border-base-300">
         {options.map((option) => (
-          <li key={option} onClick={() => onSelect(option)}>
-            <a>{option}</a>
+          <li key={option}>
+            <button
+              type="button"
+              onMouseDown={(event) => {
+                event.preventDefault();
+                onSelect(option);
+              }}
+            >
+              {option}
+            </button>
           </li>
         ))}
       </ul>
