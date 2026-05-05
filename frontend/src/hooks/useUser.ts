@@ -13,5 +13,5 @@ export const useUser = () => {
     queryKey: ["me"],
     queryFn: () => authApi.me(),
     staleTime: Infinity, 
-  });
+  }).data;
 };

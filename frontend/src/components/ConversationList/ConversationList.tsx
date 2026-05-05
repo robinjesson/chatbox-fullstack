@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { Configuration, ConversationControllerApi } from "../../api";
+import { useUser } from "../../hooks";
 import ConversationItem from "../ConversationItem/ConversationItem";
 import CreateConversationDialog from "../CreateConversationDialog/CreateConversationDialog";
 
@@ -16,9 +17,11 @@ const ConversationList = ({
 }: {
   setConversationId: (id: number) => void;
 }) => {
+  const me = useUser();
   const { data: conversations } = useQuery({
     queryKey: ["conversations"],
     queryFn: () => convApi.findForConnectedUser(),
+    enabled: me != null,
   });
   const [open, setOpen] = useState(false);
 

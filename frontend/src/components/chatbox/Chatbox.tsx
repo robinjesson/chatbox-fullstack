@@ -4,8 +4,8 @@ import {
   Configuration,
   ConversationControllerApi,
   type MessageResponse,
-  type UserResponse,
 } from "../../api";
+import { useUser } from "../../hooks";
 import ConversationList from "../ConversationList/ConversationList";
 import Message from "../Message/Message";
 import MessageForm from "../MessageForm/MessageForm";
@@ -17,11 +17,10 @@ const convApi = new ConversationControllerApi(
   }),
 );
 
-interface ChatboxProps {
-  user: UserResponse;
-}
+interface ChatboxProps {}
 
-const Chatbox = ({ user }: ChatboxProps) => {
+const Chatbox = ({}: ChatboxProps) => {
+  const me = useUser();
   const queryClient = useQueryClient();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [conversationId, setConversationId] = useState<number>(1);
@@ -35,6 +34,8 @@ const Chatbox = ({ user }: ChatboxProps) => {
   }, [messages]);
 
   useEffect(() => {
+    if (!me) return;
+
     try {
       const eventSource = new EventSource(
         `http://localhost:8080/conversations/${conversationId}/open`,
@@ -63,7 +64,9 @@ const Chatbox = ({ user }: ChatboxProps) => {
     } catch (error) {
       console.log("error ----", error);
     }
-  }, [conversationId]);
+  }, [conversationId, me]);
+
+  if (!me) return <p>You must be logged in to view the chatbox.</p>;
 
   return (
     <>
@@ -79,7 +82,7 @@ const Chatbox = ({ user }: ChatboxProps) => {
                 ref={index === messages.length - 1 ? messagesEndRef : null}
                 text={message.text!}
                 sender={message.user?.uid!}
-                isMine={message.user?.uid === user.uid}
+                isMine={message.user?.uid === me?.uid}
               />
             ))
           ) : (
